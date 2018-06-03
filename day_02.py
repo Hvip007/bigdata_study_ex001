@@ -31,8 +31,10 @@ while 1:
     if n == "2":
         url='http://api.openweathermap.org/data/2.5/forecast?q={},cn&mode=json&lang=zh_cn&&APPID=6a67ed641c0fda8b69715c43518b6996&units=metric'
         city = input("请输入城市:")
+        #汉字转拼音
         city_pinyin = p.get_pinyin(city,'')
         info = r.urlopen(url.format(city_pinyin)).read().decode('utf-8','ignore')
+        #创建表格
         table = PrettyTable(["时间", "温度", "最高温度","最低温度","天气",'气压'])
         for i in range(37):
             w = json.loads(info)
@@ -43,9 +45,11 @@ while 1:
             weather =  w['list'][i]['weather'][0]['description']
             pressure = w['list'][i]['main']['pressure'] 
             table.add_row([time,temp, temp_max,temp_min,weather,pressure])
+            #将每天的天气情况分割开
             if i==4 or i==12 or i==20 or i==28:
                 table.add_row(['------------------','------', '------','------','------','------'])
         print(table)
+        
     if n =='3':
         print('再见，欢迎再次使用本系统！')
         break
